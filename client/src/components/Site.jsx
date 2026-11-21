@@ -55,7 +55,7 @@ export function CartDrawer({ open, onClose }) {
           <ul className="cart-lines">
             {lines.map((l) => (
               <li key={l.key} className={!l.product.available ? 'is-out' : ''}>
-                <div className="cart-art"><FoodArt art={l.product.art} /></div>
+                <div className="cart-art"><FoodArt art={l.product.art} image={l.product.image} /></div>
                 <div>
                   <strong>{l.product.name}</strong>
                   {l.notes && <small className="muted">{l.notes}</small>}

@@ -1,4 +1,6 @@
 import express from 'express'
+import { mkdirSync, writeFileSync, rmSync } from 'node:fs'
+import { join } from 'node:path'
 import { db, getSetting, setSetting } from './db.js'
 import * as O from './orders.js'
 import { HttpError } from './orders.js'
@@ -8,6 +10,7 @@ import { mercadoPagoEnabled, mpGetStatus, mpVerifySignature } from './pix.js'
 import { toStaff, toRoom } from './bus.js'
 
 export const DEMO = process.env.DEMO_MODE !== 'false'
+export const UPLOAD_DIR = process.env.UPLOAD_DIR || 'data/uploads'
 const api = express.Router()
 api.use(express.json({ limit: '100kb' }))
 
@@ -255,6 +258,39 @@ staff.post('/products', (req, res) => {
     .run(f.name, f.description || '', f.category, f.price, f.art || 'burger:classic', f.available ?? 1, pos)
   toRoom('menu', 'menu', {})
   res.status(201).json(productRow(db.prepare('SELECT * FROM products WHERE id = ?').get(Number(r.lastInsertRowid))))
+})
+
+// Foto real do produto. O painel já envia a imagem quadrada e comprimida.
+const IMAGE_TYPES = { 'image/webp': 'webp', 'image/jpeg': 'jpg', 'image/png': 'png' }
+function looksLikeImage(buf, type) {
+  if (type === 'image/jpeg') return buf[0] === 0xff && buf[1] === 0xd8
+  if (type === 'image/png') return buf.subarray(1, 4).toString() === 'PNG'
+  if (type === 'image/webp') return buf.subarray(0, 4).toString() === 'RIFF' && buf.subarray(8, 12).toString() === 'WEBP'
+  return false
+}
+function removeImageFile(url) {
+  if (url?.startsWith('/uploads/')) rmSync(join(UPLOAD_DIR, url.slice('/uploads/'.length)), { force: true })
+}
+staff.put('/products/:id/image', express.raw({ type: Object.keys(IMAGE_TYPES), limit: '4mb' }), (req, res) => {
+  const p = db.prepare('SELECT * FROM products WHERE id = ?').get(Number(req.params.id))
+  if (!p) throw new HttpError(404, 'Produto não encontrado.')
+  const type = req.get('content-type')
+  if (!Buffer.isBuffer(req.body) || !IMAGE_TYPES[type] || !looksLikeImage(req.body, type)) throw new HttpError(400, 'Envie uma foto em JPG, PNG ou WebP.')
+  mkdirSync(join(UPLOAD_DIR, 'products'), { recursive: true })
+  const name = `products/${p.id}-${Date.now()}.${IMAGE_TYPES[type]}`
+  writeFileSync(join(UPLOAD_DIR, name), req.body)
+  removeImageFile(p.image)
+  db.prepare('UPDATE products SET image = ? WHERE id = ?').run(`/uploads/${name}`, p.id)
+  toRoom('menu', 'menu', {})
+  res.json(productRow(db.prepare('SELECT * FROM products WHERE id = ?').get(p.id)))
+})
+staff.delete('/products/:id/image', (req, res) => {
+  const p = db.prepare('SELECT * FROM products WHERE id = ?').get(Number(req.params.id))
+  if (!p) throw new HttpError(404, 'Produto não encontrado.')
+  removeImageFile(p.image)
+  db.prepare('UPDATE products SET image = NULL WHERE id = ?').run(p.id)
+  toRoom('menu', 'menu', {})
+  res.json(productRow(db.prepare('SELECT * FROM products WHERE id = ?').get(p.id)))
 })
 
 staff.get('/settings', (_req, res) => res.json({ ...getSetting('store'), pix_provider: mercadoPagoEnabled() ? 'mercadopago' : 'estatico' }))

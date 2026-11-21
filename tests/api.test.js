@@ -1,6 +1,11 @@
 import { test, before, after } from 'node:test'
 import assert from 'node:assert/strict'
 import { spawn } from 'node:child_process'
+import { mkdtempSync, existsSync } from 'node:fs'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
+
+const uploads = mkdtempSync(join(tmpdir(), 'kero-up-'))
 
 const PORT = 3999
 const base = `http://localhost:${PORT}/api`
@@ -18,7 +23,7 @@ const call = async (path, body, token) => {
 
 before(async () => {
   srv = spawn(process.execPath, ['--disable-warning=ExperimentalWarning', 'server/index.js'], {
-    env: { ...process.env, PORT, DB_FILE: ':memory:', NODE_ENV: 'test', STAFF_PIN: '9999', PIX_KEY: 'kero@exemplo.com', DEMO_MODE: 'true' },
+    env: { ...process.env, PORT, DB_FILE: ':memory:', NODE_ENV: 'test', STAFF_PIN: '9999', PIX_KEY: 'kero@exemplo.com', DEMO_MODE: 'true', UPLOAD_DIR: uploads },
     stdio: ['ignore', 'pipe', 'inherit'],
   })
   await new Promise((r) => srv.stdout.on('data', (d) => String(d).includes('rodando') && r()))
@@ -89,4 +94,21 @@ test('mesa: pedido vai direto para a cozinha, chamado e conta dividida', async (
   assert.equal(o.status, 'finalizado')
   const dash = await call('/staff/dashboard?range=hoje', null, token)
   assert.ok(dash.current.revenue >= o.split.total)
+})
+
+test('foto real do produto: envia, aparece no cardápio e remove', async () => {
+  const { token } = await call('/staff/login', { pin: '9999' })
+  const webp = Buffer.concat([Buffer.from('RIFF'), Buffer.alloc(4), Buffer.from('WEBPVP8 '), Buffer.alloc(32)])
+  const put = (body, type) => fetch(`${base}/staff/products/1/image`, { method: 'PUT', headers: { 'Content-Type': type, Authorization: `Bearer ${token}` }, body })
+  assert.equal((await put(Buffer.from('não é imagem'), 'image/webp')).status, 400)
+  const ok = await (await put(webp, 'image/webp')).json()
+  assert.match(ok.image, /^\/uploads\/products\/1-\d+\.webp$/)
+  assert.ok(existsSync(join(uploads, ok.image.replace('/uploads/', ''))))
+  const menu = await call('/menu')
+  assert.equal(menu.find((p) => p.id === 1).image, ok.image)
+  const served = await fetch(`http://localhost:${PORT}${ok.image}`)
+  assert.equal(served.status, 200)
+  const del = await (await fetch(`${base}/staff/products/1/image`, { method: 'DELETE', headers: { Authorization: `Bearer ${token}` } })).json()
+  assert.equal(del.image, null)
+  assert.ok(!existsSync(join(uploads, ok.image.replace('/uploads/', ''))))
 })

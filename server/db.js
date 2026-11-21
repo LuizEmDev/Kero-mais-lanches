@@ -116,6 +116,10 @@ CREATE TABLE IF NOT EXISTS calls (
 );
 `)
 
+// Migrações simples: colunas novas em bancos já existentes.
+const hasColumn = (table, col) => db.prepare(`PRAGMA table_info(${table})`).all().some((c) => c.name === col)
+if (!hasColumn('products', 'image')) db.exec('ALTER TABLE products ADD COLUMN image TEXT')
+
 export function tx(fn) {
   db.exec('BEGIN')
   try {

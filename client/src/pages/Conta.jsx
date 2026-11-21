@@ -111,7 +111,7 @@ export default function Conta() {
             <ul className="fav-list">
               {favs.map((p) => (
                 <li key={p.id}>
-                  <div className="cart-art"><FoodArt art={p.art} /></div>
+                  <div className="cart-art"><FoodArt art={p.art} image={p.image} /></div>
                   <span>{p.name}<small className="num muted">{formatBRL(p.price)}</small></span>
                   <button className="icon-btn" aria-label={`Colocar ${p.name} na sacola`} disabled={!p.available} onClick={() => { cart.add(p.id); toast(`${p.name} na sacola`) }}><Icon name="bag" size={18} /></button>
                   <button className="icon-btn" aria-label={`Tirar ${p.name} dos favoritos`} onClick={() => toggleFavorite(p.id)}><Icon name="close" size={18} /></button>

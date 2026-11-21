@@ -177,7 +177,7 @@ export default function Checkout() {
           <ul className="summary-lines">
             {lines.map((l) => (
               <li key={l.key}>
-                <div className="cart-art"><FoodArt art={l.product.art} /></div>
+                <div className="cart-art"><FoodArt art={l.product.art} image={l.product.image} /></div>
                 <span><span className="num">{l.qty}×</span> {l.product.name}{l.notes && <small className="muted">{l.notes}</small>}</span>
                 <span className="num">{formatBRL(l.product.price * l.qty)}</span>
               </li>

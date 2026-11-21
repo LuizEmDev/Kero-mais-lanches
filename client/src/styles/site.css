@@ -48,8 +48,13 @@
 .hero-plus { display: inline-grid; margin-left: 0.03em; }
 .hero-plus-svg { width: 0.68em; height: 0.68em; }
 .hero-lede { max-width: 30ch; font-size: var(--t1); font-weight: 600; line-height: 1.3; }
-.hero-burger-wrap { justify-self: center; width: min(100%, 420px); }
-.hero-burger { width: 100%; height: auto; overflow: visible; will-change: transform; }
+.hero-burger-wrap { justify-self: center; width: min(100%, 520px); }
+.hero-3d { position: relative; width: 100%; aspect-ratio: 1 / 1.05; }
+.hero-3d canvas, .hero-3d-still { position: absolute; inset: 0; width: 100%; height: 100%; }
+.hero-3d-still { object-fit: contain; transition: opacity 0.4s; }
+.hero-3d canvas { opacity: 0; transition: opacity 0.3s; }
+.hero-3d.is-live canvas { opacity: 1; }
+.hero-3d.is-live .hero-3d-still { opacity: 0; }
 .order-mode { display: flex; flex-wrap: wrap; gap: 12px; align-items: stretch; }
 .seg-lg { background: rgba(43, 26, 14, 0.1); }
 .seg-lg button { display: inline-flex; align-items: center; gap: 8px; min-height: 52px; padding: 0 20px; font-size: 1.02rem; }
@@ -64,7 +69,7 @@
 .hero-mesa { font-size: 0.9rem; color: var(--chapa-2); }
 @media (max-width: 760px) {
   .hero-grid { position: relative; grid-template-columns: minmax(0, 1fr); padding-bottom: 24px; }
-  .hero-burger-wrap { position: absolute; right: var(--gutter); top: 0; width: min(27vw, 190px); }
+  .hero-burger-wrap { position: absolute; right: calc(var(--gutter) - 10px); top: -18px; width: min(34vw, 220px); }
   .hero-copy { gap: 14px; }
   .hero-word { font-size: min(19vw, 140px); }
   .hero-lede { max-width: 18ch; font-size: 1.1rem; }
@@ -92,9 +97,10 @@
 .hl-card { scroll-snap-align: start; border-radius: var(--r-2); padding: 14px; display: grid; gap: 8px; align-content: space-between; }
 .hl-yellow { background: var(--gema); }
 .hl-white { background: var(--gema-clara); }
-.hl-art { aspect-ratio: 1.2; display: grid; place-items: center; }
-.hl-art svg { height: 100%; width: auto; transition: transform 0.4s var(--mola); }
-.hl-card:hover .hl-art svg { transform: rotate(-6deg) scale(1.05); }
+.hl-art { aspect-ratio: 1.2; display: grid; place-items: center; overflow: hidden; border-radius: 14px; }
+.hl-art .is-3d { height: 128%; width: auto; transition: transform 0.5s var(--mola); }
+.hl-art .is-photo { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s var(--ease); }
+.hl-card:hover .hl-art img { transform: scale(1.07); }
 .hl-card h3 { font-size: 1.25rem; }
 @media (max-width: 760px) { .hl-row { grid-auto-columns: 46vw; } }
 
@@ -126,9 +132,10 @@
 .product-row:hover { background: #ffeeb0; }
 .product-row.is-out { opacity: 0.55; }
 .product-row-main { display: grid; grid-template-columns: 92px 1fr; gap: 14px; align-items: center; text-align: left; border: 0; background: none; padding: 0; }
-.product-row-art { background: var(--branco); border-radius: 18px; aspect-ratio: 1; display: grid; place-items: center; }
-.product-row-art svg { width: 84%; transition: transform 0.4s var(--mola); }
-.product-row:hover .product-row-art svg { transform: rotate(-6deg) scale(1.06); }
+.product-row-art { background: var(--branco); border-radius: 18px; aspect-ratio: 1; display: grid; place-items: center; overflow: hidden; }
+.product-row-art .is-3d { width: 128%; max-width: none; transition: transform 0.5s var(--mola); }
+.product-row-art .is-photo { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s var(--ease); }
+.product-row:hover .product-row-art img { transform: scale(1.08); }
 .product-row-info { display: grid; gap: 4px; }
 .product-row-info h3 { font-size: 1.08rem; font-weight: 800; }
 .product-row-info p { font-size: 0.88rem; line-height: 1.35; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
@@ -138,8 +145,7 @@
 .fav.on svg path { fill: currentColor; }
 .menu-compact { --sticky-top: 0px; padding-bottom: 20px; }
 .home .menu { --sticky-top: 0px; }
-.product-sheet-art .fa-layer { animation: drop 0.55s var(--mola) both; animation-delay: calc(var(--i) * 55ms); }
-@keyframes drop { from { transform: translateY(-46px); opacity: 0; } }
+
 .menu-compact .menu-list { grid-template-columns: 1fr; }
 .menu-skeleton { display: grid; gap: 12px; padding-block: 20px; }
 .menu-skeleton div { height: 112px; border-radius: var(--r-2); background: linear-gradient(90deg, var(--gema-clara), #fff9e0, var(--gema-clara)); background-size: 200% 100%; animation: shimmer 1.2s infinite linear; }
@@ -148,8 +154,10 @@
 
 .product-sheet { display: grid; gap: 14px; position: relative; }
 .product-sheet-close { position: absolute; right: 0; top: 0; z-index: 1; }
-.product-sheet-art { background: var(--gema); border-radius: var(--r-2); display: grid; place-items: center; padding: 16px; }
-.product-sheet-art svg { width: min(220px, 60%); }
+.product-sheet-art { background: var(--gema); border-radius: var(--r-2); display: grid; place-items: center; overflow: hidden; aspect-ratio: 16 / 10; }
+.product-sheet-art .is-3d { height: 125%; width: auto; animation: rise 0.6s var(--mola) both; }
+.product-sheet-art .is-photo { width: 100%; height: 100%; object-fit: cover; animation: fade 0.4s var(--ease) both; }
+@keyframes rise { from { transform: translateY(30px) scale(0.9); opacity: 0; } }
 .product-sheet h2 { font-size: var(--t3); }
 
 .qty { display: inline-flex; align-items: center; gap: 6px; }
@@ -166,8 +174,9 @@
 .round .cart-lines li { grid-template-columns: minmax(0, 1fr) auto; }
 .round .cart-lines li > div:first-child { justify-items: start; min-width: 0; }
 .cart-lines li.is-out { opacity: 0.6; }
-.cart-art { width: 54px; height: 54px; border-radius: 14px; background: var(--gema-clara); display: grid; place-items: center; flex: none; }
-.cart-art svg { width: 86%; }
+.cart-art { width: 54px; height: 54px; border-radius: 14px; background: var(--gema-clara); display: grid; place-items: center; flex: none; overflow: hidden; }
+.cart-art .is-3d { width: 130%; max-width: none; }
+.cart-art .is-photo { width: 100%; height: 100%; object-fit: cover; }
 
 .not-found, .route-loading { min-height: 100svh; display: grid; place-content: center; justify-items: center; gap: 16px; text-align: center; padding: var(--gutter); background: var(--gema); }
 .not-found h1 { font-size: clamp(2rem, 6vw, 3.6rem); max-width: 14ch; }

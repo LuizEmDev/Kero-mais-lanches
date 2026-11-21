@@ -1,7 +1,8 @@
 import { useLayoutEffect, useRef, useState } from 'react'
 import { SiteHeader, SiteFooter, CartDrawer, useCartLines } from '../components/Site.jsx'
 import { Plus } from '../components/Brand.jsx'
-import FoodArt, { stackBurger } from '../components/FoodArt.jsx'
+import FoodArt from '../components/FoodArt.jsx'
+import Hero3D from '../components/Hero3D.jsx'
 import Icon from '../components/Icon.jsx'
 import { useToast } from '../components/ui.jsx'
 import { Marquee, SplitChars, gsap, useSmoothScroll, Cursor } from '../components/motion.jsx'
@@ -12,16 +13,6 @@ import { cart, local, useLocal } from '../lib/local.js'
 import { formatBRL } from '@shared/money.js'
 
 const HIGHLIGHTS = ['Kero+ Duplo', 'X-Tudo', 'Dogão completo', 'Batata cheddar e bacon', 'Milkshake', 'Açaí 300 ml']
-
-function HeroBurger({ className = '' }) {
-  const layers = stackBurger('tudo', { base: 250 })
-  return (
-    <svg viewBox="0 0 200 260" className={className} aria-hidden="true">
-      <ellipse className="layer-shadow" cx="100" cy="252" rx="78" ry="7" fill="rgba(43,26,14,.18)" />
-      {layers.map((l) => <g key={l.name} className="layer">{l.el}</g>)}
-    </svg>
-  )
-}
 
 // A página inicial é o cardápio: o cliente chega e já pede.
 export default function Home() {
@@ -55,19 +46,8 @@ export default function Home() {
       // Letras sobem, o "+" gira e o lanche se monta camada por camada.
       tl.from('.hero-word .char', { yPercent: 110, duration: 1, stagger: 0.05 }, intro ? '-=0.3' : 0)
         .from('.hero-plus', { scale: 0, rotate: -180, duration: 1, ease: 'back.out(1.8)' }, '<0.25')
-        .from('.hero-burger .layer', { y: -300, opacity: 0, duration: 0.65, ease: 'bounce.out', stagger: 0.08 }, '<0.1')
-        .from('.layer-shadow', { scaleX: 0.2, opacity: 0, transformOrigin: '50% 50%', duration: 0.7 }, '<')
         .from('.hero-copy > *', { y: 24, opacity: 0, duration: 0.8, stagger: 0.08 }, '-=0.7')
 
-      // O lanche acompanha o ponteiro de leve e afunda com a rolagem.
-      const burger = root.current.querySelector('.hero-burger')
-      if (window.matchMedia('(pointer: fine)').matches) {
-        const rot = gsap.quickTo(burger, 'rotate', { duration: 0.8, ease: 'power3' })
-        const mx = gsap.quickTo(burger, 'x', { duration: 0.8, ease: 'power3' })
-        const move = (e) => { const r = e.clientX / window.innerWidth - 0.5; rot(r * 10); mx(r * 24) }
-        root.current.querySelector('.hero').addEventListener('pointermove', move)
-      }
-      gsap.to('.hero-burger-wrap', { yPercent: 18, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } })
     }, root)
     return () => ctx.revert()
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
@@ -118,7 +98,7 @@ export default function Home() {
             </ul>
             <p className="hero-mesa"><Icon name="qr" size={18} /> Está numa mesa? Leia o QR code dela para pedir direto para a cozinha.</p>
           </div>
-          <div className="hero-burger-wrap"><HeroBurger className="hero-burger" /></div>
+          <div className="hero-burger-wrap"><Hero3D delay={intro ? 1.5 : 0.35} scrollTrigger=".hero" /></div>
         </div>
       </section>
 
@@ -135,7 +115,7 @@ export default function Home() {
             <div className="hl-row">
               {highlights.map((p, i) => (
                 <article key={p.id} className={`hl-card ${i % 2 ? 'hl-white' : 'hl-yellow'}`}>
-                  <div className="hl-art"><FoodArt art={p.art} /></div>
+                  <div className="hl-art"><FoodArt art={p.art} image={p.image} /></div>
                   <h3 className="display">{p.name}</h3>
                   <div className="row between">
                     <strong className="num">{formatBRL(p.price)}</strong>

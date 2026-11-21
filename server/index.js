@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url'
 import { dirname, join } from 'node:path'
 import { Server } from 'socket.io'
 import { seed } from './seed.js'
-import api, { DEMO } from './api.js'
+import api, { DEMO, UPLOAD_DIR } from './api.js'
 import { attachIO } from './bus.js'
 import { verifyToken, staffPin } from './auth.js'
 
@@ -36,6 +36,8 @@ io.on('connection', (socket) => {
 })
 
 app.use('/api', api)
+// Fotos enviadas pela loja.
+app.use('/uploads', express.static(UPLOAD_DIR, { maxAge: '30d', fallthrough: false }))
 
 if (process.env.NODE_ENV === 'test') {
   // Testes de API: sem front-end.

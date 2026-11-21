@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head><meta charset="UTF-8" /><title>Render 3D</title><style>body{margin:0;background:#ffce1f}canvas{display:block}</style></head>
+  <body>
+    <canvas id="c" width="720" height="720"></canvas>
+    <script type="module">
+      import { buildFood, createStudio } from '/src/three/food3d.js'
+      const canvas = document.getElementById('c')
+      const studio = createStudio(canvas, { alpha: true, pixelRatio: 1 })
+      studio.renderer.setSize(720, 720, false)
+      studio.camera.aspect = 1
+      studio.camera.updateProjectionMatrix()
+      // Renderiza cada item com fundo transparente e devolve WebP.
+      window.renderFood = (art, opts = {}) => {
+        const obj = buildFood(art)
+        obj.rotation.y += opts.turn ?? 0
+        studio.scene.add(obj)
+        studio.frame(obj, { elevation: opts.elevation ?? 0.42, fill: opts.fill ?? 1.02 })
+        studio.renderer.render(studio.scene, studio.camera)
+        const url = canvas.toDataURL('image/webp', 0.9)
+        studio.scene.remove(obj)
+        return url
+      }
+      window.ready = true
+    </script>
+  </body>
+</html>

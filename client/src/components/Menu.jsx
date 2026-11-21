@@ -36,7 +36,7 @@ export function ProductSheet({ product, onClose, onAdd, cta = 'Adicionar' }) {
     <Sheet open={Boolean(product)} onClose={onClose} labelledBy="product-title">
       <div className="product-sheet">
         <button className="icon-btn product-sheet-close" onClick={onClose} aria-label="Fechar"><Icon name="close" /></button>
-        <div className="product-sheet-art"><FoodArt art={product.art} /></div>
+        <div className="product-sheet-art"><FoodArt art={product.art} image={product.image} alt={product.name} eager /></div>
         <h2 id="product-title" className="display">{product.name}</h2>
         <p className="muted">{product.description}</p>
         <label className="field">
@@ -60,7 +60,7 @@ export function ProductRow({ product, onOpen, onQuickAdd, favorite }) {
   return (
     <article className={`product-row ${soldOut ? 'is-out' : ''}`}>
       <button className="product-row-main" onClick={() => !soldOut && onOpen(product)} disabled={soldOut} data-cursor={soldOut ? undefined : 'Ver'}>
-        <div className="product-row-art"><FoodArt art={product.art} /></div>
+        <div className="product-row-art"><FoodArt art={product.art} image={product.image} /></div>
         <div className="product-row-info">
           <h3>{product.name}</h3>
           <p className="muted">{product.description}</p>
