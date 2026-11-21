@@ -50,7 +50,7 @@ export function seed({ demo = false } = {}) {
       delivery_fee: 600,
       service_pct: 10,
       prep_minutes: 25,
-      address: 'Rua das Chapas, 120 · Centro',
+      address: 'Rua das Chapas, 120, Centro',
       phone: '(11) 99999-0000',
       hours: 'Terça a domingo, 18h às 23h30',
     })
