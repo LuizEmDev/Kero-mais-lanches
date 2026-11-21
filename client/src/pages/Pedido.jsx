@@ -48,7 +48,7 @@ export default function Pedido() {
   if (order.channel === 'mesa' && order.status !== 'finalizado') return <Navigate to={`/mesa/${order.table_number}`} replace />
 
   const host = order.participants.find((p) => p.is_host)
-  const link = `${location.origin}/pedido/${order.code}`
+  const link = `${location.origin}${import.meta.env.BASE_URL}pedido/${order.code}`
   const share = async () => {
     const text = `Entra no nosso pedido da Kero+ e escolhe o seu lanche: ${link}`
     if (navigator.share) { try { await navigator.share({ title: 'Pedido Kero+', text, url: link }) } catch { /* cancelado */ } }

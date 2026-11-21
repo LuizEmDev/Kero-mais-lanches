@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { Logo, Plus } from './Brand.jsx'
 import Icon from './Icon.jsx'
 import FoodArt from './FoodArt.jsx'
@@ -92,8 +93,8 @@ export function SiteFooter() {
         <nav className="footer-links" aria-label="Rodapé">
           <TLink to="/">Cardápio</TLink>
           <TLink to="/conta">Meus pedidos</TLink>
-          <a href="/cozinha">Cozinha</a>
-          <a href="/admin">Painel da loja</a>
+          <Link to="/cozinha">Cozinha</Link>
+          <Link to="/admin">Painel da loja</Link>
         </nav>
       </div>
       <div className="footer-word display" aria-hidden="true"><span>kero</span><Plus size={100} color="var(--gema)" /></div>

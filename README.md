@@ -22,6 +22,16 @@ Testes do servidor (divisão de conta, BR Code do Pix e fluxos de pedido): `npm 
 
 Configuração completa em `.env.example`. O PIN padrão da equipe é `1234`; troque com `STAFF_PIN`.
 
+## Demonstração no GitHub Pages
+
+Link: https://luizemdev.github.io/Kero-mais-lanches/
+
+O GitHub Pages só hospeda arquivos estáticos, então essa versão roda o "servidor" dentro do navegador: as mesmas regras de pedido (`server/orders.js`) e o mesmo banco SQLite, compilado para WebAssembly (sql.js). Os dados ficam só no navegador de quem abre, e as abas do mesmo navegador conversam entre si (abra a cozinha e o painel em outras abas para ver os pedidos chegando). O PIN da equipe é `1234`, os QR codes das mesas usam tokens fixos (ex.: `/mesa/3?t=demo3`) e o Pix usa uma chave fictícia: use "Simular pagamento".
+
+Para a loja funcionar de verdade (pedidos chegando de vários celulares na mesma cozinha, Pix confirmado), publique o servidor Node em um serviço como Render, Railway ou Fly.io com `npm run build && npm start`.
+
+Para atualizar a demonstração: `npm run build:pages` e publique a pasta `dist-pages` no branch `gh-pages`.
+
 ## O que tem
 
 | Endereço | Para quem | O que faz |

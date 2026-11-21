@@ -38,7 +38,8 @@ export function seed({ demo = false } = {}) {
   if (!hasTables) {
     const ins = db.prepare('INSERT INTO tables(number, seats, token) VALUES (?,?,?)')
     tx(() => {
-      for (let n = 1; n <= 12; n++) ins.run(n, n % 3 === 0 ? 6 : 4, randomBytes(6).toString('base64url'))
+      // Na demonstração os QR codes precisam ser iguais em todos os aparelhos.
+      for (let n = 1; n <= 12; n++) ins.run(n, n % 3 === 0 ? 6 : 4, process.env.FIXED_TABLE_TOKENS ? `demo${n}` : randomBytes(6).toString('base64url'))
     })
   }
   if (getSetting('store') === null) {

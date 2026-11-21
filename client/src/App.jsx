@@ -3,6 +3,7 @@ import { Route, Routes, useLocation } from 'react-router-dom'
 import { ToastProvider } from './components/ui.jsx'
 import { TransitionProvider, TLink, ScrollTrigger } from './components/motion.jsx'
 import { Logo } from './components/Brand.jsx'
+import DemoBar from './demo/DemoBar.jsx'
 import Home from './pages/Home.jsx'
 
 const Cardapio = lazy(() => import('./pages/Cardapio.jsx'))
@@ -51,6 +52,7 @@ export default function App() {
     <ToastProvider>
       <TransitionProvider>
         <RouteEffects />
+        {import.meta.env.VITE_STATIC_DEMO && <DemoBar />}
         <a href="#conteudo" className="skip-link">Pular para o conteúdo</a>
         <div id="conteudo">
           <Suspense fallback={<div className="route-loading"><div className="spinner"><span /></div></div>}>

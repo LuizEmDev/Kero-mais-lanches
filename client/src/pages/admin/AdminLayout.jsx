@@ -43,7 +43,7 @@ function Shell() {
           {LINKS.map(([to, label, icon, end]) => (
             <NavLink key={to} to={to} end={end} className={({ isActive }) => (isActive ? 'on' : '')}><Icon name={icon} /> <span>{label}</span></NavLink>
           ))}
-          <a href="/cozinha" target="_blank" rel="noreferrer"><Icon name="chef" /> <span>Cozinha</span></a>
+          <a href={`${import.meta.env.BASE_URL}cozinha`} target="_blank" rel="noreferrer"><Icon name="chef" /> <span>Cozinha</span></a>
         </nav>
         <button className="link-btn admin-out" onClick={clearStaffToken}><Icon name="logout" size={18} /> Sair</button>
       </aside>

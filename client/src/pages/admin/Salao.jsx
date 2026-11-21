@@ -10,7 +10,7 @@ import { minutesSince, useNow } from '../../lib/hooks.js'
 import { formatBRL } from '@shared/money.js'
 import { CALL_REASONS } from '@shared/status.js'
 
-const tableUrl = (t) => `${location.origin}/mesa/${t.number}?t=${t.token}`
+const tableUrl = (t) => `${location.origin}${import.meta.env.BASE_URL}mesa/${t.number}?t=${t.token}`
 
 export default function Salao() {
   const { data, reload } = useStaffData('/staff/tables', { kinds: ['order', 'call', 'payment', 'ticket', 'tables'] })

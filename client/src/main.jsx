@@ -7,10 +7,17 @@ import './styles/site.css'
 import './styles/app.css'
 import './styles/staff.css'
 
-createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </StrictMode>,
-)
+const basename = import.meta.env.BASE_URL.replace(/\/$/, '') || '/'
+
+async function start() {
+  // Versão de demonstração (GitHub Pages): o servidor roda dentro do navegador.
+  if (import.meta.env.VITE_STATIC_DEMO) await (await import('./demo/boot.js')).boot()
+  createRoot(document.getElementById('root')).render(
+    <StrictMode>
+      <BrowserRouter basename={basename}>
+        <App />
+      </BrowserRouter>
+    </StrictMode>,
+  )
+}
+start()

@@ -1,10 +1,11 @@
 import { useEffect, useRef } from 'react'
 import { io } from 'socket.io-client'
 import { staffToken } from './local.js'
+import { fakeSocket } from '../demo/socket.js'
 
 let socket = null
 export function getSocket() {
-  if (!socket) socket = io({ transports: ['websocket', 'polling'] })
+  if (!socket) socket = import.meta.env.VITE_STATIC_DEMO ? fakeSocket : io({ transports: ['websocket', 'polling'] })
   return socket
 }
 
