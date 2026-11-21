@@ -50,13 +50,13 @@ export default function Conta() {
       <SiteHeader tone="white" />
       <main className="container account-grid">
         <header className="account-head">
-          <h1 className="display">{account.profile.name ? `Oi, ${account.profile.name.split(' ')[0]}` : 'Minha conta'}</h1>
+          <h1 className="display">{account.profile.name ? `Oi, ${account.profile.name.split(' ')[0]}` : 'Meus pedidos'}</h1>
           <p className="muted">Sua conta fica guardada só neste aparelho: sem senha, sem cadastro. Seus dados preenchem o pedido sozinhos e o histórico fica aqui.</p>
         </header>
 
         <section className="panel stack account-orders">
           <h2>Seus pedidos</h2>
-          {!account.orders.length && <div className="empty"><p>Você ainda não fez pedidos neste aparelho.</p><TLink to="/cardapio" className="btn btn-red">Fazer o primeiro</TLink></div>}
+          {!account.orders.length && <div className="empty"><p>Você ainda não fez pedidos neste aparelho.</p><TLink to="/" className="btn btn-red">Fazer o primeiro</TLink></div>}
           <ul className="history">
             {account.orders.map((o) => {
               const d = details[o.code]

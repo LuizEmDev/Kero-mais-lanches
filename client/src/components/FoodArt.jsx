@@ -61,7 +61,7 @@ function Burger({ variant }) {
   const layers = stackBurger(variant, { base: 178 })
   const top = layers[layers.length - 1].y
   const shift = (200 - (178 - top)) / 2 - top + 4
-  return <g transform={`translate(0 ${shift * 0.6})`}>{layers.map((l) => <g key={l.name}>{l.el}</g>)}</g>
+  return <g transform={`translate(0 ${shift * 0.6})`}>{layers.map((l, i) => <g key={l.name} className="fa-layer" style={{ '--i': i }}>{l.el}</g>)}</g>
 }
 
 function Hotdog({ full }) {

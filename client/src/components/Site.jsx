@@ -26,8 +26,8 @@ export function SiteHeader({ tone = 'yellow' }) {
       <header className={`site-header tone-${tone}`}>
         <TLink to="/" className="site-logo" aria-label="Kero+ início" data-cursor="Início"><Logo size={34} /></TLink>
         <nav className="site-nav" aria-label="Principal">
-          <TLink to="/cardapio">Cardápio</TLink>
-          <TLink to="/conta">Minha conta</TLink>
+          <TLink to="/">Cardápio</TLink>
+          <TLink to="/conta">Meus pedidos</TLink>
         </nav>
         <button id="cart-target" className="cart-btn" onClick={() => setOpen(true)} aria-label={`Sacola, ${count} ${count === 1 ? 'item' : 'itens'}`}>
           <Icon name="bag" />
@@ -48,7 +48,7 @@ export function CartDrawer({ open, onClose }) {
       {!lines.length ? (
         <div className="empty">
           <p>Sua sacola está vazia. Escolha um lanche no cardápio.</p>
-          <button className="btn btn-red" onClick={() => { onClose(); go('/cardapio') }}>Ver o cardápio</button>
+          <button className="btn btn-red" onClick={() => { onClose(); go('/') }}>Ver o cardápio</button>
         </div>
       ) : (
         <div className="stack">
@@ -90,8 +90,8 @@ export function SiteFooter() {
           <p>{config?.phone}</p>
         </div>
         <nav className="footer-links" aria-label="Rodapé">
-          <TLink to="/cardapio">Cardápio</TLink>
-          <TLink to="/conta">Minha conta</TLink>
+          <TLink to="/">Cardápio</TLink>
+          <TLink to="/conta">Meus pedidos</TLink>
           <a href="/cozinha">Cozinha</a>
           <a href="/admin">Painel da loja</a>
         </nav>

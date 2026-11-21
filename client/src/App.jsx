@@ -19,7 +19,7 @@ const CardapioAdmin = lazy(() => import('./pages/admin/CardapioAdmin.jsx'))
 const Ajustes = lazy(() => import('./pages/admin/Ajustes.jsx'))
 
 const TITLES = [
-  [/^\/$/, 'Kero+ lanches'], [/^\/cardapio/, 'Cardápio | Kero+'], [/^\/checkout/, 'Finalizar pedido | Kero+'],
+  [/^\/$/, 'Kero+ | Cardápio e pedidos'], [/^\/checkout/, 'Finalizar pedido | Kero+'],
   [/^\/pedido/, 'Seu pedido | Kero+'], [/^\/mesa/, 'Mesa | Kero+'], [/^\/conta/, 'Minha conta | Kero+'],
   [/^\/cozinha/, 'Cozinha | Kero+'], [/^\/admin/, 'Painel | Kero+'],
 ]
@@ -41,7 +41,7 @@ function NotFound() {
       <Logo size={48} />
       <h1 className="display">Essa página não saiu da chapa</h1>
       <p>O endereço pode estar errado ou o pedido não existe mais.</p>
-      <TLink to="/" className="btn btn-red btn-lg">Voltar ao início</TLink>
+      <TLink to="/" className="btn btn-red btn-lg">Ver o cardápio</TLink>
     </div>
   )
 }

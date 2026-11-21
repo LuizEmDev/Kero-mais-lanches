@@ -22,7 +22,8 @@ export default function Checkout() {
   const config = useConfig()
   const account = useLocal()
   const { lines, subtotal, count, unavailable, loaded } = useCartLines()
-  const [channel, setChannel] = useState('entrega')
+  const [channel, setChannelState] = useState(account.channel || 'entrega')
+  const setChannel = (c) => { setChannelState(c); local.update(() => ({ channel: c })) }
   const [group, setGroup] = useState(Boolean(account.groupIntent))
   const [profile, setProfile] = useState(account.profile)
   const [addrIdx, setAddrIdx] = useState(account.addresses.length ? 0 : -1)
@@ -86,7 +87,7 @@ export default function Checkout() {
         <div className="container empty">
           <h1 className="display">Sacola vazia</h1>
           <p>Escolha seus lanches no cardápio para continuar.</p>
-          <TLink to="/cardapio" className="btn btn-red btn-lg">Ver o cardápio</TLink>
+          <TLink to="/" className="btn btn-red btn-lg">Ver o cardápio</TLink>
         </div>
       </div>
     )

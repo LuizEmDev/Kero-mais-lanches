@@ -43,7 +43,7 @@ export default function Pedido() {
     setBusy(false)
   }
 
-  if (error) return <Shell><div className="empty"><h1 className="display">Pedido não encontrado</h1><p>{error.message}</p><TLink className="btn btn-red" to="/">Voltar ao início</TLink></div></Shell>
+  if (error) return <Shell><div className="empty"><h1 className="display">Pedido não encontrado</h1><p>{error.message}</p><TLink className="btn btn-red" to="/">Ver o cardápio</TLink></div></Shell>
   if (!order) return <Shell><div className="empty"><div className="spinner"><span /></div></div></Shell>
   if (order.channel === 'mesa' && order.status !== 'finalizado') return <Navigate to={`/mesa/${order.table_number}`} replace />
 
@@ -97,8 +97,8 @@ export default function Pedido() {
               <p className="muted">Quem abrir este link entra no pedido, escolhe o próprio lanche e paga a própria parte.</p>
               <div className="invite-link num">{link.replace(/^https?:\/\//, '')}</div>
               <div className="row wrap">
-                <button className="btn btn-yellow" onClick={share}><Icon name="users" size={18} /> Enviar link</button>
-                <a className="btn btn-ghost" href={`https://wa.me/?text=${encodeURIComponent(`Entra no nosso pedido da Kero+: ${link}`)}`} target="_blank" rel="noreferrer">Mandar no WhatsApp</a>
+                <button className="btn btn-yellow" onClick={share}><Icon name="users" size={18} /> Compartilhar link</button>
+                <button className="btn btn-ghost" onClick={async () => { try { await navigator.clipboard.writeText(link); toast('Link copiado') } catch { toast(link) } }}><Icon name="copy" size={18} /> Copiar link</button>
               </div>
             </section>
           )}

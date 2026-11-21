@@ -1,6 +1,6 @@
 # Kero+ lanches
 
-Site e sistema da lanchonete Kero+: vitrine animada, cardápio, pedidos na mesa sem garçom, entrega, conta dividida, Pix, painel da cozinha e dashboard.
+Cardápio digital e sistema de pedidos da Kero+: o cliente pede e paga pelo site, sem WhatsApp e sem atendente. Inclui pedidos na mesa, entrega e retirada, conta dividida, Pix, painel da cozinha e dashboard.
 
 ## Como rodar
 
@@ -26,8 +26,7 @@ Configuração completa em `.env.example`. O PIN padrão da equipe é `1234`; tr
 
 | Endereço | Para quem | O que faz |
 |---|---|---|
-| `/` | Clientes | Página inicial animada: o lanche se monta na abertura e se abre em camadas na rolagem |
-| `/cardapio` | Clientes | Cardápio com busca, categorias, favoritos e sacola |
+| `/` | Clientes | Cardápio para pedir: entrega ou retirada, pedido em grupo, mais pedidos, busca, categorias, favoritos e sacola. Abertura animada com o lanche se montando |
 | `/checkout` | Clientes | Entrega ou retirada, só eu ou em grupo, CEP automático |
 | `/pedido/CODIGO` | Clientes | Pedido em grupo, pagamento Pix e acompanhamento em tempo real |
 | `/mesa/N?t=TOKEN` | Clientes na mesa | Comanda compartilhada, envio direto para a cozinha, chamar atendente, conta dividida |
