@@ -1,4 +1,4 @@
-import{X as t}from"./index-lG1GmPda.js";import{b as a,r}from"./boot-ChKDlm-d.js";var s={DB_FILE:":memory:"};const R=s.DB_FILE,N=new t(R);N.exec("PRAGMA journal_mode = WAL; PRAGMA foreign_keys = ON;");N.exec(`
+import{V as t}from"./index-XvuR26cC.js";import{b as a,r}from"./boot-CIMz6USm.js";var s={DB_FILE:":memory:"};const R=s.DB_FILE,N=new t(R);N.exec("PRAGMA journal_mode = WAL; PRAGMA foreign_keys = ON;");N.exec(`
 CREATE TABLE IF NOT EXISTS settings (key TEXT PRIMARY KEY, value TEXT NOT NULL);
 
 CREATE TABLE IF NOT EXISTS products (

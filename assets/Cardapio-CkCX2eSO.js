@@ -1,0 +1,1 @@
+import{u as r,b as e,c as s,j as o,N as u}from"./index-XvuR26cC.js";function c(){const[t]=r(),a=t.get("grupo")==="1";return e.useEffect(()=>{a&&s.update(()=>({groupIntent:!0}))},[a]),o.jsx(u,{to:"/",replace:!0})}export{c as default};
