@@ -65,7 +65,7 @@ export default function Home() {
           {/* A foto entra com ajuste de foco; o vapor lembra que sai quente da chapa. */}
           <figure className="hero-photo">
             <div className="hero-photo-frame">
-              <FoodArt art={hero?.art || 'burger:tudo'} image={hero?.image} alt={hero ? `${hero.name}: ${hero.description}` : ''} eager />
+              <img src={hero?.image || `${import.meta.env.BASE_URL}food/hero.webp`} alt={hero ? `${hero.name}: ${hero.description}` : 'Hambúrguer da Kero+'} />
               <div className="steam" aria-hidden="true"><i /><i /><i /></div>
             </div>
             {hero && (
