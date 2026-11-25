@@ -6,10 +6,10 @@
   "source": "https://commons.wikimedia.org/wiki/File:Hamburguesa_de_carne.jpg"
  },
  "burger-double": {
-  "title": "Lima Region, Peru (Unsplash CIos1pQ4MCQ).jpg",
-  "author": "Sebastián LP elmundoderabbitlp",
+  "title": "Gourmet Hamburger (Unsplash).jpg",
+  "author": "Eaters Collective eaterscollective",
   "license": "CC0",
-  "source": "https://commons.wikimedia.org/wiki/File:Lima_Region,_Peru_(Unsplash_CIos1pQ4MCQ).jpg"
+  "source": "https://commons.wikimedia.org/wiki/File:Gourmet_Hamburger_(Unsplash).jpg"
  },
  "burger-bacon": {
   "title": "Bacon Burgers (Unsplash).jpg",
@@ -115,8 +115,26 @@
  },
  "pudding": {
   "title": "Crème caramel 1.jpg",
-  "author": "snowpea&amp;bokchoi",
+  "author": "snowpea&bokchoi",
   "license": "CC BY 2.0",
   "source": "https://commons.wikimedia.org/wiki/File:Cr%C3%A8me_caramel_1.jpg"
+ },
+ "brownie": {
+  "title": "Brownie (13081713084).jpg",
+  "author": "Christian Benseler",
+  "license": "CC BY 2.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Brownie_(13081713084).jpg"
+ },
+ "cup-acai": {
+  "title": "Acai bowl - Açaí na tigela.jpg",
+  "author": "chahayes",
+  "license": "CC BY 2.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Acai_bowl_-_A%C3%A7a%C3%AD_na_tigela.jpg"
+ },
+ "burger-classic": {
+  "title": "Prague, Czech Republic (Unsplash L pel0mFOg).jpg",
+  "author": "Dan Gold danielcgold",
+  "license": "CC0",
+  "source": "https://commons.wikimedia.org/wiki/File:Prague,_Czech_Republic_(Unsplash_L_pel0mFOg).jpg"
  }
 }

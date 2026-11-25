@@ -11,7 +11,7 @@ import { announceAdd } from '../lib/cartSlip.js'
 import { formatBRL } from '@shared/money.js'
 
 const HIGHLIGHTS = ['Kero+ Duplo', 'X-Tudo', 'Dogão completo', 'Batata cheddar e bacon', 'Milkshake', 'Açaí 300 ml']
-const HERO = 'X-Tudo'
+const HERO = 'Kero+ Duplo'
 
 // A página inicial é o cardápio: o cliente chega e já pede.
 export default function Home() {
@@ -70,7 +70,7 @@ export default function Home() {
             </div>
             {hero && (
               <figcaption className="hero-ticket">
-                <span className="ticket-kicker">Mais pedido</span>
+                <span className="ticket-kicker">Lanche da casa</span>
                 <strong>{hero.name}</strong>
                 <span className="row between">
                   <span className="num">{formatBRL(hero.price)}</span>
