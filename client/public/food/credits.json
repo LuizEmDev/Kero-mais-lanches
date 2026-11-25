@@ -58,5 +58,17 @@
   "author": "Pamelartmins",
   "license": "CC BY 4.0",
   "source": "https://commons.wikimedia.org/wiki/File:Cachorro_quente.jpg"
+ },
+ "hotdog-simple": {
+  "title": "Hot dog gourmet.jpg",
+  "author": "Francesc Fort",
+  "license": "CC BY-SA 4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Hot_dog_gourmet.jpg"
+ },
+ "hero": {
+  "title": "Gourmet Hamburger (Unsplash).jpg",
+  "author": "Eaters Collective eaterscollective",
+  "license": "CC0",
+  "source": "https://commons.wikimedia.org/wiki/File:Gourmet_Hamburger_(Unsplash).jpg"
  }
 }
