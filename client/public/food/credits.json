@@ -34,5 +34,29 @@
   "author": "Missvain",
   "license": "CC BY 4.0",
   "source": "https://commons.wikimedia.org/wiki/File:Brunch_Burger_-_Picazo_-_Sarah_Stierch_-_Dec_2019.jpg"
+ },
+ "burger-frango": {
+  "title": "Chicken Sandwich (Unsplash).jpg",
+  "author": "Eaters Collective eaterscollective",
+  "license": "CC0",
+  "source": "https://commons.wikimedia.org/wiki/File:Chicken_Sandwich_(Unsplash).jpg"
+ },
+ "fries-plain": {
+  "title": "Truffle Fries (Unsplash).jpg",
+  "author": "Stephanie McCabe stephaniemccabe",
+  "license": "CC0",
+  "source": "https://commons.wikimedia.org/wiki/File:Truffle_Fries_(Unsplash).jpg"
+ },
+ "fries-cheddar": {
+  "title": "Pub food for the Win (Unsplash).jpg",
+  "author": "Brooke Lark brookelark",
+  "license": "CC0",
+  "source": "https://commons.wikimedia.org/wiki/File:Pub_food_for_the_Win_(Unsplash).jpg"
+ },
+ "hotdog-full": {
+  "title": "Cachorro quente.jpg",
+  "author": "Pamelartmins",
+  "license": "CC BY 4.0",
+  "source": "https://commons.wikimedia.org/wiki/File:Cachorro_quente.jpg"
  }
 }
