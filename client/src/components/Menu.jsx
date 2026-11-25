@@ -6,25 +6,6 @@ import { Plus } from './Brand.jsx'
 import { formatBRL } from '@shared/money.js'
 import { CATEGORIES, reducedMotion } from '../lib/hooks.js'
 import { toggleFavorite, useLocal } from '../lib/local.js'
-import { gsap, getLenis } from './motion.jsx'
-
-/** Animação de "+" voando do botão até a sacola: mostra para onde o item foi. */
-export function flyToCart(fromEl, targetId = 'cart-target') {
-  const target = document.getElementById(targetId)
-  if (!fromEl || !target || reducedMotion()) return
-  const a = fromEl.getBoundingClientRect()
-  const b = target.getBoundingClientRect()
-  const dot = document.createElement('div')
-  dot.className = 'fly-plus'
-  dot.innerHTML = '<svg viewBox="0 0 40 40" width="28" height="28"><path d="M15 4h10v11h11v10H25v11H15V25H4V15h11z" fill="#e8361f" stroke="#e8361f" stroke-width="5" stroke-linejoin="round"/></svg>'
-  document.body.appendChild(dot)
-  gsap.set(dot, { x: a.left + a.width / 2 - 14, y: a.top + a.height / 2 - 14 })
-  gsap.timeline({ onComplete: () => dot.remove() })
-    .to(dot, { x: b.left + b.width / 2 - 14, duration: 0.7, ease: 'power2.inOut' })
-    .to(dot, { y: b.top + b.height / 2 - 14, duration: 0.7, ease: 'back.in(1.6)', rotate: 180 }, 0)
-    .to(dot, { scale: 0.3, autoAlpha: 0, duration: 0.15 })
-    .add(() => gsap.fromTo(target, { scale: 1.25 }, { scale: 1, duration: 0.5, ease: 'elastic.out(1, 0.4)' }), '-=0.1')
-}
 
 export function ProductSheet({ product, onClose, onAdd, cta = 'Adicionar' }) {
   const [qty, setQty] = useState(1)
@@ -114,9 +95,7 @@ export function MenuBrowser({ menu, onAdd, cta, compact = false }) {
     const el = sections.current[id]
     if (!el) return
     const y = el.getBoundingClientRect().top + window.scrollY - 130
-    const l = getLenis()
-    if (l) l.scrollTo(y, { duration: 0.9 })
-    else window.scrollTo({ top: y, behavior: reducedMotion() ? 'auto' : 'smooth' })
+    window.scrollTo({ top: y, behavior: reducedMotion() ? 'auto' : 'smooth' })
   }
 
   if (!menu) return <div className="menu-skeleton" aria-busy="true">{Array.from({ length: 5 }, (_, i) => <div key={i} />)}</div>

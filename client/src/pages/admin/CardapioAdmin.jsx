@@ -89,7 +89,7 @@ function EditSheet({ product, onClose, onSaved }) {
     <Sheet open onClose={() => { setF(null); onClose() }} title={product.id ? 'Editar item' : 'Novo item'}>
       <form className="stack" onSubmit={save}>
         {product.id ? <PhotoField product={product} onChange={onSaved} /> : <p className="muted">Depois de criar o item, abra de novo para enviar a foto real.</p>}
-        <p className="field-label">Imagem 3D (usada enquanto não houver foto real)</p>
+        <p className="field-label">Foto padrão (usada enquanto a loja não enviar a sua)</p>
         <div className="art-pick">
           {ARTS.map((a) => <button type="button" key={a} aria-pressed={form.art === a} onClick={() => set('art', a)} aria-label={a}><FoodArt art={a} /></button>)}
         </div>
@@ -130,14 +130,14 @@ function PhotoField({ product, onChange }) {
       <div className="photo-row">
         <div className="photo-preview"><FoodArt art={product.art} image={product.image} alt={product.name} /></div>
         <div className="stack" style={{ '--gap': '8px' }}>
-          <p className="muted">{product.image ? 'Os clientes veem esta foto.' : 'Sem foto: os clientes veem a imagem 3D. Use uma foto com o lanche centralizado e boa luz.'}</p>
+          <p className="muted">{product.image ? 'Os clientes veem esta foto.' : 'Sem foto da loja: os clientes veem a foto padrão. Use uma foto com o lanche centralizado e boa luz.'}</p>
           <label className={`btn btn-yellow ${busy ? 'is-busy' : ''}`}>
             {busy ? 'Enviando...' : product.image ? 'Trocar foto' : 'Enviar foto'}
             <input type="file" accept="image/*" className="sr-only" disabled={busy} onChange={(e) => upload(e.target.files?.[0])} />
           </label>
           {product.image && (
             <button type="button" className="btn btn-ghost btn-sm" disabled={busy} onClick={async () => {
-              try { await api(`/staff/products/${product.id}/image`, { method: 'DELETE', staff: true }); toast('Foto removida. Voltou a imagem 3D.'); onChange() } catch (e) { toast(e.message, 'red') }
+              try { await api(`/staff/products/${product.id}/image`, { method: 'DELETE', staff: true }); toast('Foto removida. Voltou a foto padrão.'); onChange() } catch (e) { toast(e.message, 'red') }
             }}>Remover foto</button>
           )}
         </div>

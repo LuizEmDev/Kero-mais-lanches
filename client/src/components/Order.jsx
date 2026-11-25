@@ -1,13 +1,11 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import QRCode from 'qrcode'
 import Icon from './Icon.jsx'
-import { Plus } from './Brand.jsx'
 import { Sheet, Qty, useToast } from './ui.jsx'
 import { formatBRL } from '@shared/money.js'
 import { ORDER_STATUS, DELIVERY_FLOW, PICKUP_FLOW, TICKET_STATUS } from '@shared/status.js'
 import { api } from '../lib/api.js'
-import { useNow, clock, reducedMotion } from '../lib/hooks.js'
-import { gsap } from './motion.jsx'
+import { useNow, clock } from '../lib/hooks.js'
 
 const AVATAR = ['#e8361f', '#2b1a0e', '#1d7f45', '#f2b600', '#7a3fa0', '#2b7fc2', '#c2240f', '#8a4d29']
 export const avatarColor = (id) => AVATAR[id % AVATAR.length]
@@ -201,7 +199,6 @@ export function PixPayment({ order, paymentId, demo, onClose }) {
   const [simulating, setSimulating] = useState(false)
   const now = useNow(1000)
   const toast = useToast()
-  const okRef = useRef(null)
 
   useEffect(() => {
     if (!payment) return
@@ -216,16 +213,6 @@ export function PixPayment({ order, paymentId, demo, onClose }) {
     return () => clearInterval(t)
   }, [payment?.id, payment?.status]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  useEffect(() => {
-    if (payment?.status !== 'pago' || !okRef.current || reducedMotion()) return
-    const pluses = okRef.current.querySelectorAll('.burst span')
-    gsap.fromTo(okRef.current.querySelector('.ok-check'), { scale: 0, rotate: -90 }, { scale: 1, rotate: 0, duration: 0.7, ease: 'back.out(2.2)' })
-    gsap.fromTo(pluses, { x: 0, y: 0, scale: 0, opacity: 1 }, {
-      x: () => gsap.utils.random(-160, 160), y: () => gsap.utils.random(-140, 60), rotate: () => gsap.utils.random(-180, 180), scale: () => gsap.utils.random(0.5, 1.3),
-      opacity: 0, duration: 1.3, ease: 'power3.out', stagger: 0.015,
-    })
-  }, [payment?.status])
-
   if (!payment) return null
   const left = Math.max(0, payment.expires_at - now)
   const mm = String(Math.floor(left / 60000)).padStart(2, '0')
@@ -239,10 +226,12 @@ export function PixPayment({ order, paymentId, demo, onClose }) {
   return (
     <Sheet open onClose={onClose} title={payment.status === 'pago' ? 'Pagamento confirmado' : 'Pague com Pix'}>
       {payment.status === 'pago' ? (
-        <div className="pix-ok" ref={okRef}>
-          <div className="burst" aria-hidden="true">{Array.from({ length: 18 }, (_, i) => <span key={i}><Plus size={22} color={i % 3 ? 'var(--gema)' : 'var(--pimenta)'} /></span>)}</div>
-          <div className="ok-check"><Icon name="check" size={56} stroke={3} /></div>
-          <p className="display" style={{ fontSize: 'var(--t3)' }}><span className="num">{formatBRL(payment.amount)}</span> pagos</p>
+        <div className="pix-ok">
+          <div className="pix-receipt">
+            <p className="muted">Pix recebido</p>
+            <p className="display pix-ok-amount num">{formatBRL(payment.amount)}</p>
+            <span className="stamp" aria-hidden="true">pago</span>
+          </div>
           <p className="muted">{order.split.due > 0 ? `Ainda faltam ${formatBRL(order.split.due)} de outras pessoas.` : order.channel === 'mesa' ? 'Conta fechada. Valeu pela visita!' : 'Todo mundo pagou. Seu pedido foi para a cozinha.'}</p>
           <button className="btn btn-red btn-block" onClick={onClose} data-autofocus>Voltar ao pedido</button>
         </div>

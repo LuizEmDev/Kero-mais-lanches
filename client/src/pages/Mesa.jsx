@@ -12,7 +12,6 @@ import { useRoom } from '../lib/socket.js'
 import { local, rememberOrder, useLocal } from '../lib/local.js'
 import { formatBRL } from '@shared/money.js'
 import { CALL_REASONS } from '@shared/status.js'
-import { gsap } from '../components/motion.jsx'
 
 function useTableToken(n) {
   const [params] = useSearchParams()
@@ -130,7 +129,7 @@ function Comanda({ code, n, token, onNew }) {
     round.clear()
     toast('Pedido enviado para a cozinha', 'green')
     if (!wide) setTab('comanda')
-    if (tabBadge.current) gsap.fromTo(tabBadge.current, { scale: 1.6 }, { scale: 1, duration: 0.6, ease: 'elastic.out(1, 0.4)' })
+    if (tabBadge.current) { tabBadge.current.classList.remove('bump'); void tabBadge.current.offsetWidth; tabBadge.current.classList.add('bump') }
   })
 
   const call = (reason) => run(async () => {

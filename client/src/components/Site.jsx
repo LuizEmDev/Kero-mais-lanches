@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Logo, Plus } from './Brand.jsx'
 import Icon from './Icon.jsx'
@@ -8,6 +8,7 @@ import { TLink, useGo } from './motion.jsx'
 import { cart, useLocal } from '../lib/local.js'
 import { useMenu, useConfig } from '../lib/hooks.js'
 import { formatBRL } from '@shared/money.js'
+import { cartEvents } from '../lib/cartSlip.js'
 
 export function useCartLines() {
   const items = useLocal((s) => s.cart)
@@ -19,9 +20,27 @@ export function useCartLines() {
   return { lines, subtotal, count, unavailable, loaded: Boolean(menu) }
 }
 
+/** Comanda de papel que sai debaixo da sacola mostrando o item que acabou de entrar. */
+function CartSlip({ subtotal, count }) {
+  const [slip, setSlip] = useState(null)
+  useEffect(() => {
+    let t
+    const on = (e) => { setSlip(e.detail); clearTimeout(t); t = setTimeout(() => setSlip(null), 2600) }
+    cartEvents.addEventListener('add', on)
+    return () => { cartEvents.removeEventListener('add', on); clearTimeout(t) }
+  }, [])
+  if (!slip) return null
+  return (
+    <div className="cart-slip" key={slip.at} role="status">
+      <span className="slip-line"><span className="num">{slip.qty}×</span> {slip.name}</span>
+      <span className="slip-line muted"><span>{count} {count === 1 ? 'item' : 'itens'}</span><span className="num">{formatBRL(subtotal)}</span></span>
+    </div>
+  )
+}
+
 export function SiteHeader({ tone = 'yellow' }) {
   const [open, setOpen] = useState(false)
-  const { count } = useCartLines()
+  const { count, subtotal } = useCartLines()
   return (
     <>
       <header className={`site-header tone-${tone}`}>
@@ -30,10 +49,13 @@ export function SiteHeader({ tone = 'yellow' }) {
           <TLink to="/">Cardápio</TLink>
           <TLink to="/conta">Meus pedidos</TLink>
         </nav>
-        <button id="cart-target" className="cart-btn" onClick={() => setOpen(true)} aria-label={`Sacola, ${count} ${count === 1 ? 'item' : 'itens'}`}>
-          <Icon name="bag" />
-          <span className="num">{count}</span>
-        </button>
+        <div className="cart-anchor">
+          <button id="cart-target" className="cart-btn" onClick={() => setOpen(true)} aria-label={`Sacola, ${count} ${count === 1 ? 'item' : 'itens'}`}>
+            <Icon name="bag" />
+            <span className="num">{count}</span>
+          </button>
+          <CartSlip subtotal={subtotal} count={count} />
+        </div>
       </header>
       <CartDrawer open={open} onClose={() => setOpen(false)} />
     </>
@@ -95,6 +117,7 @@ export function SiteFooter() {
           <TLink to="/conta">Meus pedidos</TLink>
           <Link to="/cozinha">Cozinha</Link>
           <Link to="/admin">Painel da loja</Link>
+          <Link to="/creditos">Créditos das fotos</Link>
         </nav>
       </div>
       <div className="footer-word display" aria-hidden="true"><span>kero</span><Plus size={100} color="var(--gema)" /></div>

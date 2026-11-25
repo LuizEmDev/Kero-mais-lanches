@@ -77,10 +77,13 @@
 .pix-steps { margin: 0; padding-left: 1.2em; display: grid; gap: 4px; font-size: 0.92rem; }
 .pix-exp { --gap: 6px; font-size: 0.9rem; justify-content: center; }
 .pix-note { font-size: 0.85rem; text-align: center; }
-.pix-ok { position: relative; display: grid; justify-items: center; text-align: center; gap: 12px; padding-top: 8px; }
-.ok-check { width: 104px; height: 104px; border-radius: 50%; background: var(--alface); color: var(--branco); display: grid; place-items: center; }
-.burst { position: absolute; left: 50%; top: 60px; width: 0; height: 0; pointer-events: none; }
-.burst span { position: absolute; left: -11px; top: -11px; opacity: 0; }
+.pix-ok { display: grid; justify-items: center; text-align: center; gap: 14px; }
+.pix-receipt { position: relative; width: 100%; padding: 26px 18px; border-radius: var(--r-1); background: var(--gema-clara); overflow: hidden; }
+.pix-ok-amount { font-size: var(--t4); }
+/* Carimbo "pago": bate com força e fica levemente torto, como no balcão. */
+.stamp { position: absolute; right: 14px; top: 50%; padding: 4px 14px; border: 4px solid var(--alface); border-radius: 10px; color: var(--alface); font-family: var(--display); font-size: 2rem; line-height: 1.1; text-transform: lowercase; background: rgba(255, 255, 255, 0.6);
+  transform: translateY(-50%) rotate(-12deg); animation: stamp 0.55s cubic-bezier(0.2, 1.6, 0.4, 1) 0.15s both; }
+@keyframes stamp { 0% { transform: translateY(-50%) rotate(-30deg) scale(2.6); opacity: 0; } 60% { opacity: 1; } 100% { transform: translateY(-50%) rotate(-12deg) scale(1); opacity: 1; } }
 
 /* ---------- acompanhamento ---------- */
 .timeline { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
@@ -90,7 +93,8 @@
 .timeline li.done, .timeline li.now { color: var(--chapa); }
 .timeline li.done::before, .timeline li.now::before { background: var(--chapa); }
 .tl-dot { width: 28px; height: 28px; border-radius: 50%; border: 2px solid var(--linha); display: grid; place-items: center; background: var(--branco); flex: none; z-index: 1; }
-.timeline .done .tl-dot { background: var(--chapa); border-color: var(--chapa); color: var(--branco); }
+.timeline .done .tl-dot { background: var(--chapa); border-color: var(--chapa); color: var(--branco); animation: dot-stamp 0.45s cubic-bezier(0.2, 1.6, 0.4, 1) both; }
+@keyframes dot-stamp { from { transform: scale(1.9) rotate(-25deg); opacity: 0; } }
 .timeline .now .tl-dot { border-color: var(--pimenta); background: var(--pimenta); box-shadow: 0 0 0 6px rgba(232, 54, 31, 0.18); animation: pulse 1.6s infinite; }
 .timeline .now { font-size: 1.1rem; font-weight: 800; }
 @keyframes pulse { 50% { box-shadow: 0 0 0 10px rgba(232, 54, 31, 0.06); } }
@@ -118,6 +122,7 @@
 .mesa-tabs { position: fixed; z-index: 40; left: 0; right: 0; bottom: 0; display: grid; grid-template-columns: 1fr 1fr; background: var(--chapa); padding-bottom: env(safe-area-inset-bottom); }
 .mesa-tabs button { display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 62px; border: 0; background: none; color: rgba(255, 255, 255, 0.7); font-weight: 800; }
 .mesa-tabs button[aria-pressed='true'] { color: var(--gema); box-shadow: inset 0 3px 0 var(--gema); }
+.badge.bump { animation: dot-stamp 0.5s cubic-bezier(0.2, 1.6, 0.4, 1); }
 .badge { display: inline-block; padding: 2px 8px; border-radius: var(--r-pao); background: var(--pimenta); color: var(--branco); font-size: 0.78rem; }
 .round-dock { position: fixed; z-index: 35; left: 0; right: 0; bottom: calc(62px + env(safe-area-inset-bottom)); padding: 0 var(--gutter) 10px; pointer-events: none; }
 .round-details { pointer-events: auto; max-width: 560px; margin-inline: auto; background: var(--branco); border-radius: var(--r-2); box-shadow: 0 0 0 2px var(--chapa); padding: 12px 16px; max-height: 60svh; overflow: auto; }
@@ -145,3 +150,12 @@
 .fav-list li { display: grid; grid-template-columns: auto 1fr auto auto; gap: 8px; align-items: center; }
 .fav-list span { display: grid; font-weight: 600; }
 @media (max-width: 900px) { .account-grid { grid-template-columns: minmax(0, 1fr); } }
+
+/* ---------- créditos ---------- */
+.credits { padding-block: 32px 80px; display: grid; gap: 16px; }
+.credits h1 { font-size: clamp(2.2rem, 6vw, 4rem); }
+.credits > p { max-width: 64ch; }
+.credits-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)); gap: 12px; }
+.credits-list li { display: grid; grid-template-columns: 72px 1fr; gap: 12px; align-items: center; padding: 10px; border-radius: var(--r-1); background: var(--branco); font-size: 0.88rem; }
+.credits-list img { width: 72px; height: 72px; object-fit: cover; border-radius: 10px; }
+.credits-list div { display: grid; gap: 2px; min-width: 0; overflow-wrap: anywhere; }
